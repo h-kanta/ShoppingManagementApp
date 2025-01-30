@@ -12,20 +12,21 @@ struct CustomTabBar: View {
     @Binding var currentTab: Tab
     
     var body: some View {
-        HStack {
+        HStack() {
             ForEach (Tab.allCases, id: \.hashValue) { tab in
                 VStack(spacing: 7) {
-                    Image(systemName: currentTab == tab ? tab.tabCurrentIcon() : tab.tabIcon())
+                    Image(systemName: currentTab == tab ? tab.tabCurrentIconName() : tab.tabIconName())
+                        .foregroundStyle(.font)
                         .font(.title3)
                         .frame(maxWidth: .infinity)
                         .frame(height: 32)
                         .scaleEffect(currentTab == tab ? 1.3 : 1.0)
                     
                     Text(tab.tabName())
+                        .foregroundStyle(.font)
                         .font(.caption2)
                 }
                 .contentShape(Rectangle())
-                .padding(.bottom, 34)
                 .onTapGesture {
                     withAnimation(.smooth) {
                         currentTab = tab
@@ -33,17 +34,21 @@ struct CustomTabBar: View {
                 }
             }
         }
-        .frame(height: 90)
+        .frame(height: 56)
+        .frame(maxWidth: 360)
         .padding()
-        .frame(maxWidth: 600)
         .background {
-            Rectangle()
-                .foregroundStyle(.main).opacity(0.1)
+            Capsule()
+                .foregroundStyle(.card)
+                .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 3, y: 3) // 薄い影
+                .shadow(color: Color.gray.opacity(0.2), radius: 5, x: -3, y: -3) // さらに薄い影
         }
+        .padding(.horizontal)
     }
 }
 
 #Preview {
     @Previewable @State var tab: Tab = .home
     CustomTabBar(currentTab: $tab)
+        .fullScreenBackground(.back)
 }

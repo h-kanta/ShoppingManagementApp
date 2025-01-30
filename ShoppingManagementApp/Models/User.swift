@@ -10,6 +10,8 @@ import Foundation
 struct User {
     let id: String
     let name: String
+    let profileImage: String
+    //let linkedAccounts: [LinkedAccount]
     let createdAt: Date
     let updatedAt: Date
 }

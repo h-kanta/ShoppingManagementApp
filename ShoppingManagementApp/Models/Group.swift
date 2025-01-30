@@ -9,7 +9,7 @@ import Foundation
 
 struct Group {
     let id: String
-    let ownerId: String
+    let ownerId: String // グループ作成者のUID
     let members: [String]
     let createdAt: Date
     let updatedAt: Date

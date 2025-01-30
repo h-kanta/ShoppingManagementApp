@@ -5,7 +5,7 @@
 //  Created by 堀川貫太 on 2025/01/07.
 //
 
-import Foundation
+import SwiftUI
 
 // MARK: カスタムタブバー
 enum Tab: CaseIterable {
@@ -17,7 +17,7 @@ enum Tab: CaseIterable {
 }
 
 extension Tab {
-    // MARK: タブ名
+    // MARK: タブバー名
     func tabName() -> String {
         switch self {
         case .home:
@@ -33,15 +33,15 @@ extension Tab {
         }
     }
     
-    // MARK: タブアイコン
-    func tabIcon() -> String {
+    // MARK: タブバーアイコン
+    func tabIconName() -> String {
         switch self {
         case .home:
             return "house"
         case .shoppingList:
             return "list.bullet"
         case .inventoryList:
-            return "door.french.closed"
+            return "archivebox"
         case .expenseManagement:
             return "yensign.circle"
         case .option:
@@ -49,14 +49,15 @@ extension Tab {
         }
     }
     
-    func tabCurrentIcon() -> String {
+    // MARK: 選択中のタブバーアイコン
+    func tabCurrentIconName() -> String {
         switch self {
         case .home:
             return "house.fill"
         case .shoppingList:
             return "list.bullet.circle.fill"
         case .inventoryList:
-            return "door.french.open"
+            return "archivebox.fill"
         case .expenseManagement:
             return "yensign.circle.fill"
         case .option:

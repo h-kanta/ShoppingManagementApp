@@ -12,3 +12,24 @@ extension View {
         self.modifier(FullScreenBackground(color: color))
     }
 }
+
+extension Date {
+    // 指定されたフォーマットで String に変換
+    func toString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        formatter.locale = .current
+        return formatter.string(from: self)
+    }
+}
+
+extension String {
+    // 指定されたフォーマットで Date に変換
+    func toDate() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        formatter.locale = .current
+        formatter.timeZone = .current
+        return formatter.date(from: self)
+    }
+}

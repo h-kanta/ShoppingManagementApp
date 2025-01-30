@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var currentTab: Tab = .home
+    @State var viewModel: ShoppingListViewModel = ShoppingListViewModel()
+    @State var currentTabBar: Tab = .home
     
     init() {
         UITabBar.appearance().isHidden = true
@@ -21,7 +22,7 @@ struct ContentView: View {
         // 下線（シャドウ）を透明にする
         appearance.shadowColor = .clear
         // 影をつける
-        appearance.shadowColor = UIColor.black.withAlphaComponent(0.5)
+        //appearance.shadowColor = UIColor.black.withAlphaComponent(0.5)
         
         UITabBar.appearance().standardAppearance = appearance
         if #available(iOS 15.0, *) {
@@ -31,11 +32,11 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            TabView(selection: $currentTab) {
+            TabView(selection: $currentTabBar) {
                 HomeView()
                     .fullScreenBackground(.back)
                     .tag(Tab.home)
-                ShoppingListView()
+                ShoppingListView(viewModel: $viewModel)
                     .fullScreenBackground(.back)
                     .tag(Tab.shoppingList)
                 InventoryListView()
@@ -49,8 +50,9 @@ struct ContentView: View {
                     .tag(Tab.option)
             }
             
-            CustomTabBar(currentTab: $currentTab)
+            CustomTabBar(currentTab: $currentTabBar)
                 .frame(maxHeight: .infinity, alignment: .bottom)
+                .padding(.bottom, 34)
         }
         .ignoresSafeArea()
     }
