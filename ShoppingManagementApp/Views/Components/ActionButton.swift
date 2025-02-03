@@ -13,19 +13,20 @@ struct ActionButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button {
+        ZStack {
+            Circle()
+                .foregroundStyle(.card)
+
+            Image(systemName: iconName)
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundStyle(.font)
+        }
+        .frame(width: 72, height: 72)
+        .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 3, y: 3) // 薄い影
+        .shadow(color: Color.gray.opacity(0.2), radius: 5, x: -3, y: -3) // さらに薄い影
+        .onTapGesture {
             action()
-        } label: {
-            ZStack {
-                Circle()
-                    .foregroundStyle(.main)
-                
-                Image(systemName: iconName)
-                    .foregroundStyle(.white)
-                    .font(.title)
-                    .fontWeight(.bold)
-            }
-            .frame(width: 80, height: 80)
         }
     }
 }

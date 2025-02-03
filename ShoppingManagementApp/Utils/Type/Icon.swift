@@ -27,6 +27,12 @@ enum Icon: CaseIterable {
     case trash
     // 編集
     case edit
+    // 追加
+    case add
+    // 閉じる
+    case close
+    // 決定
+    case decision
 }
 
 extension Icon {
@@ -50,6 +56,12 @@ extension Icon {
             return "trash.fill"
         case .edit:
             return "pencil"
+        case .add:
+            return "plus"
+        case .close:
+            return "multiply"
+        case .decision:
+            return "checkmark"
         }
     }
 }

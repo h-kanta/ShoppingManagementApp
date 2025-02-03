@@ -24,7 +24,7 @@ struct ShoppingListViewModel {
     
     // MARK: チェックアクション
     mutating func shoppingItemCheckAction(categoryId: String, listItemId: String) {
-        if let index = shoppingList.shoppingListItems.firstIndex(where: { $0.id == listItemId && $0.categoryId == categoryId }) {
+        if let index = getlistItemIndex(categoryId, listItemId) {
             shoppingList.shoppingListItems[index].isChecked.toggle()
         }
     }
@@ -36,5 +36,17 @@ struct ShoppingListViewModel {
         }
         
         return shoppingList.shoppingListCategorys[0].color.themaColor()
+    }
+    
+    // MARK: リスト削除
+    mutating func deleteListItem(categoryId: String, listItemId: String) {
+        if let index = getlistItemIndex(categoryId, listItemId) {
+            shoppingList.shoppingListItems.remove(at: index)
+        }
+    }
+    
+    // MARK: 該当するリストアイテムのインデックスを返す
+    func getlistItemIndex(_ categoryId: String, _ listItemId: String) -> Int? {
+        return shoppingList.shoppingListItems.firstIndex(where: { $0.id == listItemId && $0.categoryId == categoryId })
     }
 }

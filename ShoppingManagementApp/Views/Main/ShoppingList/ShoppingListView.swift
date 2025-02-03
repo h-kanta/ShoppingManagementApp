@@ -11,6 +11,7 @@ struct ShoppingListView: View {
     
     @Binding var viewModel: ShoppingListViewModel
     @State var currentTabId: String = "1"
+    @State var isShowingView: Bool = false
     
     var body: some View {
         VStack {
@@ -25,10 +26,17 @@ struct ShoppingListView: View {
             // MARK: リストアイテム
             listItems
             
-
-            Spacer()
+            // MARK: リスト追加
+            ActionButton(iconName: Icon.add.symbolName()) {
+                isShowingView = true
+            }
+            .padding(.bottom, 114)
         }
         .padding(.horizontal)
+        .sheet(isPresented: $isShowingView) {
+            ShoppingListAddView()
+                .fullScreenBackground(.back)
+        }
     }
 }
 

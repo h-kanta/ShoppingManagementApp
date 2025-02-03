@@ -12,7 +12,7 @@ struct ShoppingListItemView: View {
     @Binding var viewModel: ShoppingListViewModel
     let item: ShoppingListItem
     @Binding var currentTabId: String
-    
+
     var body: some View {
         SwipeAction(cornerRadius: 10, direction: .trailing) {
             ZStack {
@@ -64,10 +64,15 @@ struct ShoppingListItemView: View {
                                                   listItemId: item.id)
             }
         } actions: {
+//            // 編集
             Action(tint: .orange, icon: Icon.edit.symbolName()) {
                 print("Edit")
             }
+            // 削除
             Action(tint: .red, icon: Icon.trash.symbolName()) {
+                withAnimation(.easeInOut) {
+                    viewModel.deleteListItem(categoryId: currentTabId, listItemId: item.id)
+                }
                 print("Delete")
             }
         }
@@ -98,35 +103,65 @@ enum SwipeDirection {
 }
 
 struct SwipeAction<Content: View>: View {
-    var cornerRadius: CGFloat = 0
-    var direction: SwipeDirection = .trailing
-    @ViewBuilder var content: Content
-    @ActionBuilder var actions: [Action]
+    var cornerRadius: CGFloat = 0 // 角丸
+    var direction: SwipeDirection = .trailing // スワイプの方向
+    @ViewBuilder var content: Content // スワイプ可能なアイテムのビュー
+    @ActionBuilder var actions: [Action] // スワイプした時に表示されるアクションボタン
+    let viewId = UUID()
+    @State private var isEnabled: Bool = true // スワイプ動作が可能かどうか
+    @State private var scrollOffset: CGFloat = .zero // スワイプ距離
     
     var body: some View {
-        ScrollViewReader { scrollProxy in
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 0) {
+        ScrollViewReader { scrollProxy in // スワイプ位置を制御
+            ScrollView(.horizontal) { // 横スワイプを可能にする
+                LazyHStack(spacing: 0) { // アクションボタンを横並びに
                     content
-                        .containerRelativeFrame(.horizontal)
+                        .containerRelativeFrame(.horizontal) // アイテムの幅を親のサイズに合わせる
+                        .id(viewId)
+                        .transition(.identity)
+                        .overlay {
+                            GeometryReader {
+                                let minX = $0.frame(in: .scrollView(axis: .horizontal)).minX
+                                
+                                Color.clear
+                                    .preference(key: OffsetKey.self, value: minX)
+                                    .onPreferenceChange(OffsetKey.self) {
+                                        scrollOffset = $0
+                                    }
+                            }
+                        }
                     
-                    ActionButton()
+                    ActionButton {
+                        withAnimation {
+                            scrollProxy.scrollTo(viewId, anchor: direction == .trailing ?
+                                .topLeading : .topTrailing)
+                        }
+                    }
                 }
                 .scrollTargetLayout()
                 .visualEffect { content, geometryProxy in
                     content
-                        .offset(x: scrollOffset(geometryProxy))
+                        .offset(x: scrollOffset(geometryProxy)) // 左から右スワイプの制御
                 }
             }
             .scrollIndicators(.hidden)
-            .scrollTargetBehavior(.viewAligned)
+            .scrollTargetBehavior(.viewAligned) // スワイプ後にボタンがちょうど表示されるように調整
+            .background {
+                if let lastAction = actions.last {
+                    Rectangle()
+                        .fill(lastAction.tint)
+                        .opacity(scrollOffset == .zero ? 0 : 1)
+                }
+            }
             .clipShape(.rect(cornerRadius: cornerRadius))
         }
+        .allowsHitTesting(isEnabled)
+        .transition(CustomTransition()) // 削除時のアニメーション
     }
     
-    // Action Button
+    // MARK: アクションボタン
     @ViewBuilder
-    func ActionButton() -> some View {
+    func ActionButton(resetPosition: @escaping () -> ()) -> some View {
         Rectangle()
             .fill(.clear)
             .frame(width: CGFloat(actions.count) * 80)
@@ -134,7 +169,14 @@ struct SwipeAction<Content: View>: View {
                 HStack(spacing: 0) {
                     ForEach(actions) { button in
                         Button {
-                            
+                            Task {
+                                isEnabled = false
+                                resetPosition()
+                                try? await Task.sleep(for: .seconds(0.25)) // 0.25後にボタンアクションを開始する
+                                button.action()
+                                try? await Task.sleep(for: .seconds(0.1))
+                                isEnabled = true
+                            }
                         } label: {
                             Image(systemName: button.icon)
                                 .font(button.iconFont)
@@ -150,10 +192,35 @@ struct SwipeAction<Content: View>: View {
             }
     }
     
+    // 左から右スワイプの制御
     func scrollOffset(_ proxy: GeometryProxy) -> CGFloat {
         let minX = proxy.frame(in: .scrollView(axis: .horizontal)).minX
         
         return direction == .trailing ? (minX > 0 ? -minX : 0) : (minX < 0 ? -minX : 0)
+    }
+}
+
+
+struct OffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
+struct CustomTransition: Transition {
+    func body(content: Content, phase: TransitionPhase) -> some View {
+        content
+            .mask {
+                GeometryReader {
+                    let size = $0.size
+                    
+                    Rectangle()
+                        .offset(y: phase == .identity ? 0 : -size.height)
+                }
+                .containerRelativeFrame(.horizontal)
+                
+            }
     }
 }
 
