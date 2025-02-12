@@ -45,14 +45,14 @@ struct ContentView: View {
                 ExpenseManagementView()
                     .fullScreenBackground(.back)
                     .tag(Tab.expenseManagement)
-                OptionView()
-                    .fullScreenBackground(.back)
-                    .tag(Tab.option)
+//                OptionView()
+//                    .fullScreenBackground(.back)
+//                    .tag(Tab.option)
             }
             
             CustomTabBar(currentTab: $currentTabBar)
                 .frame(maxHeight: .infinity, alignment: .bottom)
-                .padding(.bottom, 34)
+                .padding(.bottom, 24)
         }
         .ignoresSafeArea()
     }

@@ -19,6 +19,8 @@ enum Icon: CaseIterable {
 //    case expenseManagement
 //    // オプション
 //    case option
+    // チェックマーク
+    case checkmark
     // チェック未
     case check
     //　チェック済
@@ -31,8 +33,8 @@ enum Icon: CaseIterable {
     case add
     // 閉じる
     case close
-    // 決定
-    case decision
+    // ドロップダウンの印
+    case dropdown
 }
 
 extension Icon {
@@ -48,6 +50,8 @@ extension Icon {
 //            return Image(systemName: "yensign.circle")
 //        case .option:
 //            return Image(systemName: "gearshape")
+        case .checkmark:
+            return "checkmark"
         case .check:
             return "square"
         case .checked:
@@ -60,8 +64,8 @@ extension Icon {
             return "plus"
         case .close:
             return "multiply"
-        case .decision:
-            return "checkmark"
+        case .dropdown:
+            return "chevron.down"
         }
     }
 }

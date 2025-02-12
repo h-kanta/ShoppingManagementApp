@@ -21,7 +21,7 @@ struct CategoryTab: View {
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundStyle(currentTabId == category.id ? .back : category.color.themaColor())
-                        .padding()
+                        .padding(10)
                         .background {
                             if currentTabId == category.id {
                                 Rectangle()

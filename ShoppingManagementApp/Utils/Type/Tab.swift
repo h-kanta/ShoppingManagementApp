@@ -13,7 +13,7 @@ enum Tab: CaseIterable {
     case shoppingList
     case inventoryList
     case expenseManagement
-    case option
+//    case option
 }
 
 extension Tab {
@@ -28,8 +28,8 @@ extension Tab {
             return "在庫管理"
         case .expenseManagement:
             return "支出管理"
-        case .option:
-            return "オプション"
+//        case .option:
+//            return "オプション"
         }
     }
     
@@ -44,8 +44,8 @@ extension Tab {
             return "archivebox"
         case .expenseManagement:
             return "yensign.circle"
-        case .option:
-            return "gearshape"
+//        case .option:
+//            return "gearshape"
         }
     }
     
@@ -60,8 +60,8 @@ extension Tab {
             return "archivebox.fill"
         case .expenseManagement:
             return "yensign.circle.fill"
-        case .option:
-            return "gearshape.fill"
+//        case .option:
+//            return "gearshape.fill"
         }
     }
 }

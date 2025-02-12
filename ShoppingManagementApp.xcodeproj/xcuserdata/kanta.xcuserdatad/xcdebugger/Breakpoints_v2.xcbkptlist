@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "EF59B20B-9736-41E9-BBCC-CBE4AE93C35E"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "050B7157-3A11-47F2-BC84-2D0AAD1B2480"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../var/folders/bk/29ff7x6572d_yglsqd7hkgxh0000gn/T/swift-generated-sources/@__swiftmacro_21ShoppingManagementApp0027MenuSelectPickerswift_ovFAhfMX30_0_33_65DC321592C90E7C5B3D2D50FD15803ALl7PreviewfMf_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
+            landmarkName = "$s21ShoppingManagementApp0027MenuSelectPickerswift_ovFAhfMX30_0_33_65DC321592C90E7C5B3D2D50FD15803ALl7PreviewfMf_15PreviewRegistryfMu_"
+            landmarkType = "37">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

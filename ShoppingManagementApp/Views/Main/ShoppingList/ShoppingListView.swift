@@ -14,27 +14,30 @@ struct ShoppingListView: View {
     @State var isShowingView: Bool = false
     
     var body: some View {
-        VStack {
-            Text("買い物リスト")
-                .font(.title2)
-            
-            // MARK: カテゴリタブ
-            CategoryTab(categorys: $viewModel.shoppingList.shoppingListCategorys,
-                        currentTabId: $currentTabId)
+        ZStack {
+            VStack {
+                Text("買い物リスト")
+                    .font(.title2)
+                
+                // MARK: カテゴリタブ
+                CategoryTab(categorys: $viewModel.shoppingList.shoppingListCategorys,
+                            currentTabId: $currentTabId)
                 .padding(.bottom)
+                
+                // MARK: リストアイテム
+                listItems
+            }
             
-            // MARK: リストアイテム
-            listItems
-            
-            // MARK: リスト追加
+            // MARK: リストアイテム追加ボタン
             ActionButton(iconName: Icon.add.symbolName()) {
                 isShowingView = true
             }
+            .frame(maxHeight: .infinity, alignment: .bottom)
             .padding(.bottom, 114)
         }
         .padding(.horizontal)
         .sheet(isPresented: $isShowingView) {
-            ShoppingListAddView()
+            ShoppingListAddView(viewModel: $viewModel)
                 .fullScreenBackground(.back)
         }
     }

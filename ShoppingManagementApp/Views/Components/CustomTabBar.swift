@@ -34,7 +34,7 @@ struct CustomTabBar: View {
                 }
             }
         }
-        .frame(height: 56)
+        .frame(height: 40)
         .frame(maxWidth: 360)
         .padding()
         .background {

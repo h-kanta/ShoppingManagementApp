@@ -22,7 +22,7 @@ struct ActionButton: View {
                 .fontWeight(.bold)
                 .foregroundStyle(.font)
         }
-        .frame(width: 72, height: 72)
+        .frame(width: 56, height: 56)
         .shadow(color: Color.gray.opacity(0.2), radius: 5, x: 3, y: 3) // 薄い影
         .shadow(color: Color.gray.opacity(0.2), radius: 5, x: -3, y: -3) // さらに薄い影
         .onTapGesture {
